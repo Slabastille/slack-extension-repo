@@ -1,0 +1,9 @@
+{
+    "name": "Top 3 Slacks",
+    "version": "0.1.0",
+    "description": "Get the top comments with reactions in a slack channel",
+    "manifest_version": 3,
+    "action":{
+        "default_popup": "popup.html"
+    }
+}
