@@ -1,0 +1,2 @@
+import getChannelMessages from './retrieveChannels';
+
