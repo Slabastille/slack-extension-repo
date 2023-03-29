@@ -1,7 +1,9 @@
 import React from 'react';
 import topMessages from './topMessages';
 
-class GetToken extends React.Component{
+
+
+ class GetToken extends React.Component{
     constructor(props){
         super(props)
         this.state = {value:''}
@@ -13,7 +15,7 @@ class GetToken extends React.Component{
       }
     
       handleSubmit(event) {
-        //alert('A name was submitted: ' + this.state.value);
+        alert('A name was submitted: ' + this.state.value);
         //create function that takes in th evalue and does something with it here
         event.preventDefault();
       }
@@ -24,15 +26,17 @@ class GetToken extends React.Component{
         //     //let message = channelMessages(token, currentChannel)
         //     console.log(token)}
           
-    render(){
+    async render(){
         console.log('this is state',this.state)
         let channel = 'C04NDJL4TSL'
-        let token = 'xoxp-4737822716051-4750575042113-4853103095143-a657de2bd344bd622b07428df6b845d6'
-        topMessages(channel,token)
+        let token = ''
+        //console.log(token)
+        let messages = await topMessages(channel,token)
+        console.log('heree' ,messages)
         return(
     //if the token is good we add a button that takes them to the next page
             <div>
-                <div>Imma need that token</div>
+                <div>Imma need that token mayne</div>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                     Name:

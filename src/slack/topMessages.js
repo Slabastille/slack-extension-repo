@@ -1,28 +1,42 @@
-import retrieveChannels from './retrieveChannels';
+import retrieveChannels from './slackApi';
 
-async function topMessages (channel, token){
-    function itsFunny(mess){
-        if (mess.reactions){
-            return mess
-        }
-    }
-    let verifier = true
-    let messageArr = []
-    let cursor=''
-    let message;
-    //let funnyMessages = message.messages.filter(itsFunny)
-    while(verifier){
-        //messageArr.push(message.messages)
-        message = await retrieveChannels(channel, token, cursor)
-        if(message.response_metadata.next_cursor){
-            cursor = message.response_metadata.next_cursor
-            console.log('this is verifier', verifier)
-        }
-        if(!message.response_metadata.next_cursor){
+async function topMessages (channel, token, cursor){
+     let allMessages = []
+     let verifier = true
+     let counter = 1;
+     //this while loop gets the messages that have a reaction and store them in all messages
+     while (verifier === true && counter != 4){
+        //Initial api call to get 100 messaged
+        console.log(counter, 'coiUNNTERRR')
+        let message = await retrieveChannels(channel, token, cursor)
+        console.log('message again', message)
+
+        //Filters through the 100 messages and only returns the messages with a reaction
+        let messagesArr = message.messages.filter((mess)=>
+                mess.reactions
+            )
+        // adds all messages with a reaction together
+        allMessages.push(...messagesArr)
+        if (message.has_more){
+                cursor = message.response_metadata.next_cursor
+                counter +=1
+            }
+        else{
             verifier = false
         }
-        console.log('cursorrrrr' ,cursor)
-   }
+    }
+     
+    //console.log('cursor', cursor)
+     
+     
+
+    
+     //Checks if there are more messages 
+     
+     
+        
+        
+    console.log('allll', allMessages)
    //get an array of all the messages (message)
    //channel token cursor(undefined for the first time) 
    //cursor is used to get the next set of 100 messages
