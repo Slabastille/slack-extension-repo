@@ -28,8 +28,8 @@ import topMessages from './topMessages';
           
     async render(){
         console.log('this is state',this.state)
-        let channel = 'C04NDJL4TSL'
-        let token = ''
+        let channel = 'C039KTQKSCA'
+        
         //console.log(token)
         let messages = await topMessages(channel,token)
         console.log('heree' ,messages)

@@ -23,10 +23,28 @@ async function topMessages (channel, token, cursor){
             verifier = false
         }
     }
-     
-     let finalMessages = allMessagesWithReactions.sort((a,b)=>{
-        return b.reactions.length - a.reactions.length
-    }).slice(0,3)
+     const sortFunction=(a,b)=>{
+        let aCount = 0;
+        let bCount = 0;
+        for(let i of a.reactions){
+            aCount += i.count;
+        }
+        for(let i of b.reactions){
+            bCount += i.count;
+        }
+        console.log('aaaaa', aCount)
+        console.log('bbbbb', bCount)
+        if(aCount > bCount){
+            return a - b
+        }
+        else if(bCount > aCount){
+            return b - a
+        }
+     }
+    // let finalMessages = allMessagesWithReactions.sort((a,b)=>{
+    //     return b.reactions.length - a.reactions.length
+    // }).slice(0,3)
+    let finalMessages = allMessagesWithReactions.sort(sortFunction).slice(0,3)
 
    return finalMessages
 }
