@@ -1,22 +1,20 @@
 import retrieveChannels from './slackApi';
 
 async function topMessages (channel, token, cursor){
-     let allMessages = []
+     let allMessagesWithReactions = []
      let verifier = true
      let counter = 1;
      //this while loop gets the messages that have a reaction and store them in all messages
      while (verifier === true && counter != 4){
         //Initial api call to get 100 messaged
-        console.log(counter, 'coiUNNTERRR')
+        //console.log(counter, 'coiUNNTERRR')
         let message = await retrieveChannels(channel, token, cursor)
-        console.log('message again', message)
-
         //Filters through the 100 messages and only returns the messages with a reaction
         let messagesArr = message.messages.filter((mess)=>
                 mess.reactions
             )
         // adds all messages with a reaction together
-        allMessages.push(...messagesArr)
+        allMessagesWithReactions.push(...messagesArr)
         if (message.has_more){
                 cursor = message.response_metadata.next_cursor
                 counter +=1
@@ -26,24 +24,10 @@ async function topMessages (channel, token, cursor){
         }
     }
      
-    //console.log('cursor', cursor)
-     
-     
+     let finalMessages = allMessagesWithReactions.sort((a,b)=>{
+        return b.reactions.length - a.reactions.length
+    }).slice(0,3)
 
-    
-     //Checks if there are more messages 
-     
-     
-        
-        
-    console.log('allll', allMessages)
-   //get an array of all the messages (message)
-   //channel token cursor(undefined for the first time) 
-   //cursor is used to get the next set of 100 messages
-   //if cursor is false then we have all the messages 
-   //filter all the messages by the ones that have a reaction
-   //sort the messages by the ones with the most reactions (fyi these messages come in as an object inside of an array)
-   //we want to return the top 3 messages with the most reactions
-   return message
+   return finalMessages
 }
 export default topMessages
